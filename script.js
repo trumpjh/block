@@ -155,7 +155,8 @@ function createItem(x, y, forceType = null) {
     if (forceType) {
         itemType = itemTypes.find(type => type.type === forceType);
     } else {
-        if (gameState.level === 1 || stageItemsDropped >= itemsPerStage) return;
+        // gameState.level === 1 조건을 제거합니다.
+        if (stageItemsDropped >= itemsPerStage) return;
         const regularItems = itemTypes.filter(type => type.type !== 'extraLife');
         itemType = regularItems[Math.floor(Math.random() * regularItems.length)];
     }
