@@ -6,13 +6,13 @@ import { getFirestore, collection, addDoc, getDocs, query, limit, orderBy } from
 // --- Firebase 설정 ---
 // 사용자의 Firebase 프로젝트 설정 정보를 여기에 입력합니다.
 const firebaseConfig = {
-  apiKey: "AIzaSyAs9RVHEWzJcWWanpTbCCDsTD4hvlBfdUc",
-  authDomain: "black-8060e.firebaseapp.com",
-  projectId: "black-8060e",
-  storageBucket: "black-8060e.appspot.com",
-  messagingSenderId: "1010329205136",
-  appId: "1:1010329205136:web:e0d1bcb81e7cde04665b15",
-  measurementId: "G-FGLRCBMCT8"
+  apiKey: "AIzaSyDHG0wXgCTjGcgfzNrI8LDg2DjvjsZ4eqw",
+  authDomain: "black2-2f5eb.firebaseapp.com",
+  projectId: "black2-2f5eb",
+  storageBucket: "black2-2f5eb.firebasestorage.app",
+  messagingSenderId: "381668862234",
+  appId: "1:381668862234:web:7a8cb1fcff6fa762b124a3",
+  measurementId: "G-G56KTX4LZ6"
 };
 
 let db, auth;
