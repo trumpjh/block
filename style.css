@@ -1,0 +1,147 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: white;
+}
+
+.game-container {
+    text-align: center;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+canvas {
+    border: 3px solid #fff;
+    border-radius: 10px;
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    cursor: none; /* 마우스 커서 숨기기 */
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.controls {
+    margin-top: 15px;
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    display: none; /* 기본적으로 숨김 */
+    width: 80%;
+    max-width: 500px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+    z-index: 100;
+}
+
+.modal h2 {
+    background: linear-gradient(45deg, #ff6b6b, #feca57);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.restart-btn {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+}
+
+.restart-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+}
+
+.title {
+    font-size: 32px;
+    margin-bottom: 20px;
+    background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+}
+
+.item-info {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    max-width: 200px;
+}
+
+#name-prompt input {
+    padding: 10px;
+    border-radius: 20px;
+    border: 2px solid #764ba2;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    text-align: center;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+#name-prompt button {
+    background: linear-gradient(45deg, #54a0ff, #5f27cd);
+}
+
+#leaderboard-list {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+    text-align: left;
+}
+#leaderboard-list li {
+    background: rgba(255,255,255,0.1);
+    margin-bottom: 5px;
+    padding: 8px 15px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+#leaderboard-list li .rank {
+    font-weight: bold;
+    color: #feca57;
+    margin-right: 15px;
+}
+#leaderboard-list li .name {
+    flex-grow: 1;
+}
+#leaderboard-list li .score {
+    font-weight: bold;
+    color: #48dbfb;
+}
