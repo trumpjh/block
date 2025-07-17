@@ -68,7 +68,7 @@ const items = [];
 const particles = [];
 
 // --- 게임 설정 ---
-const brickRowCount = 8;
+const brickRowCount = 6;
 const brickColumnCount = 12;
 const brickWidth = 60;
 const brickHeight = 20;
@@ -122,20 +122,31 @@ document.getElementById('restartBtn').addEventListener('click', () => {
 
 // --- 게임 로직 함수들 ---
 function createBricks() {
-    bricks.length = 0;
-    stageItemsDropped = 0;
-    lifeItemDropped = false;
-    for (let r = 0; r < brickRowCount; r++) {
-        for (let c = 0; c < brickColumnCount; c++) {
-            bricks.push({
-                x: c * (brickWidth + brickPadding) + brickOffsetLeft,
-                y: r * (brickHeight + brickPadding) + brickOffsetTop,
-                width: brickWidth, height: brickHeight,
-                color: brickColors[r % brickColors.length],
-                colorIndex: r % brickColors.length,
-                row: r, visible: true, points: (brickRowCount - r) * 10
-            });
-        }
+    bricks.length = 0;
+    stageItemsDropped = 0;
+    lifeItemDropped = false;
+
+    for (let r = 0; r < brickRowCount; r++) {
+        for (let c = 0; c < brickColumnCount; c++) {
+            // ✨ 레벨 2 이상부터는 50% 확률로 벽돌을 생성합니다.
+            if (gameState.level > 1 && Math.random() < 0.5) {
+                continue; // 이 위치의 벽돌은 생성하지 않고 건너뜁니다.
+            }
+
+            bricks.push({
+                x: c * (brickWidth + brickPadding) + brickOffsetLeft,
+                y: r * (brickHeight + brickPadding) + brickOffsetTop,
+                width: brickWidth, height: brickHeight,
+                color: brickColors[r % brickColors.length],
+                colorIndex: r % brickColors.length,
+                row: r, visible: true, points: (brickRowCount - r) * 10
+            });
+        }
+    }
+
+    // ✨ 만약 랜덤 생성 결과 벽돌이 하나도 없다면, 다시 생성해서 게임이 멈추는 것을 방지합니다.
+    if (gameState.level > 1 && bricks.length === 0) {
+        createBricks();
     }
 }
 
