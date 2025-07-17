@@ -18,25 +18,22 @@ const firebaseConfig = {
 let db, auth;
 let scoresCollection; // 랭킹 데이터를 저장할 컬렉션
 
-try {
-    // 위에서 정의한 firebaseConfig로 앱을 초기화합니다.
-    const app = initializeApp(firebaseConfig);
-    db = getFirestore(app);
-    auth = getAuth(app);
-
-    // 익명으로 로그인하여 사용자 인증을 처리합니다.
-    await signInAnonymously(auth);
-
-    // 데이터베이스에 'scores'라는 이름의 컬렉션 경로를 설정합니다.
-    scoresCollection = collection(db, "scores");
-
-    console.log("Firebase initialized and user signed in successfully.");
-
-} catch (e) {
-    console.error("Firebase 초기화 실패:", e);
-    alert("랭킹 시스템을 불러올 수 없습니다. Firebase 설정을 확인하세요.");
+// Firebase를 비동기적으로 초기화하는 함수
+// 이 함수는 게임 시작을 막지 않고 백그라운드에서 실행됩니다.
+async function initializeFirebase() {
+    try {
+        const app = initializeApp(firebaseConfig);
+        db = getFirestore(app);
+        auth = getAuth(app);
+        await signInAnonymously(auth);
+        scoresCollection = collection(db, "scores");
+        console.log("Firebase initialized and user signed in successfully.");
+    } catch (e) {
+        console.error("Firebase 초기화 실패:", e);
+        // alert()는 게임 실행을 멈추므로 콘솔 에러로 대체합니다.
+        // alert("랭킹 시스템을 불러올 수 없습니다. Firebase 설정을 확인하세요.");
+    }
 }
-
 
 // --- 게임 요소 가져오기 ---
 const canvas = document.getElementById('gameCanvas');
@@ -574,4 +571,6 @@ function initGame() {
 }
 
 // --- 게임 시작 ---
+// Firebase 초기화를 먼저 호출하고, 그 다음에 게임을 시작합니다.
+initializeFirebase();
 initGame();
