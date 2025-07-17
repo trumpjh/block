@@ -376,6 +376,19 @@ function nextLevel() {
 }
 
 // --- 그리기 함수들 ---
+function drawParticles() {
+    for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        ctx.save();
+        ctx.globalAlpha = p.life / p.maxLife; // 수명이 다할수록 투명하게 만듭니다.
+        ctx.fillStyle = p.color;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2); // 작은 원으로 파티클을 그립니다.
+        ctx.fill();
+        ctx.restore();
+    }
+}
+
 function drawBricks() {
     bricks.forEach(brick => {
         if (brick.visible) {
@@ -480,6 +493,7 @@ function drawUI() {
 function gameLoop() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     update();
+    drawParticles()
     drawBricks();
     drawPaddle();
     drawBalls();
