@@ -350,7 +350,6 @@ function update() {
     updateParticles();
     updateUI();
 }
-
 function resetBalls() {
     balls.length = 0;
     balls.push({

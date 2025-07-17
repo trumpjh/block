@@ -118,30 +118,36 @@ canvas {
 }
 
 #leaderboard-list {
-    list-style-type: none;
-    padding: 0;
-    margin-top: 20px;
-    max-height: 300px;
-    overflow-y: auto;
-    text-align: left;
+    list-style-type: none;
+    padding: 0;
+    margin-top: 20px;
+    max-height: 300px;
+    overflow-y: auto;
+    text-align: left;
 }
 #leaderboard-list li {
-    background: rgba(255,255,255,0.1);
-    margin-bottom: 5px;
-    padding: 8px 15px;
-    border-radius: 10px;
-    display: flex;
-    justify-content: space-between;
+    background: rgba(255,255,255,0.1);
+    margin-bottom: 5px;
+    padding: 10px 15px; /* 패딩 조정 */
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* 세로 중앙 정렬 */
 }
-#leaderboard-list li .rank {
+
+/* 랭킹 헤더 스타일 */
+.leaderboard-header {
+    background: rgba(0,0,0,0.3) !important;
     font-weight: bold;
     color: #feca57;
-    margin-right: 15px;
 }
-#leaderboard-list li .name {
-    flex-grow: 1;
+
+/* 각 항목의 너비 설정 */
+#leaderboard-list li span {
+    text-align: center;
 }
-#leaderboard-list li .score {
-    font-weight: bold;
-    color: #48dbfb;
-}
+#leaderboard-list li .rank { width: 10%; }
+#leaderboard-list li .name { width: 25%; text-align: left;}
+#leaderboard-list li .level { width: 15%; }
+#leaderboard-list li .score { width: 20%; }
+#leaderboard-list li .playTime { width: 30%; text-align: right; }
