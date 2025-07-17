@@ -4,7 +4,7 @@ import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/1
 import { getFirestore, collection, addDoc, getDocs, query, limit, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
 // --- Firebase 설정 ---
-// 1. 여기에 사용자의 Firebase 프로젝트 설정 정보를 사용합니다.
+// 사용자의 Firebase 프로젝트 설정 정보를 여기에 입력합니다.
 const firebaseConfig = {
   apiKey: "AIzaSyAs9RVHEWzJcWWanpTbCCDsTD4hvlBfdUc",
   authDomain: "black-8060e.firebaseapp.com",
@@ -16,18 +16,19 @@ const firebaseConfig = {
 };
 
 let db, auth;
-let scoresCollection; // scoresCollection을 전역 변수로 선언
+let scoresCollection; // 랭킹 데이터를 저장할 컬렉션
 
 try {
-    // 2. 위에서 정의한 firebaseConfig로 앱을 초기화합니다.
+    // 위에서 정의한 firebaseConfig로 앱을 초기화합니다.
     const app = initializeApp(firebaseConfig);
     db = getFirestore(app);
     auth = getAuth(app);
 
-    // 3. 익명으로 로그인합니다.
+    // 익명으로 로그인하여 사용자 인증을 처리합니다.
     await signInAnonymously(auth);
 
-    // 4. 데이터베이스 컬렉션 경로를 설정합니다.
+    // 데이터베이스에 'scores'라는 이름의 컬렉션 경로를 설정합니다.
+    // 이 경로에 모든 랭킹 데이터가 저장됩니다.
     scoresCollection = collection(db, "scores");
 
     console.log("Firebase initialized and user signed in successfully.");
@@ -36,7 +37,6 @@ try {
     console.error("Firebase 초기화 실패:", e);
     alert("랭킹 시스템을 불러올 수 없습니다. Firebase 설정을 확인하세요.");
 }
-
 
 // --- 게임 요소 가져오기 ---
 const canvas = document.getElementById('gameCanvas');
