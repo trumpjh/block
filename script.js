@@ -45,7 +45,7 @@ let gameState = {
     paddleSpeed: 8,
     slowMotionTime: 0,
     paddleExpandTime: 0,
-    playTime: 0 // ✨ 플레이 시간 저장 속성 추가
+    playTime: 0
 };
 
 // --- 게임 객체 ---
@@ -87,7 +87,7 @@ let keys = {};
 let mouseX = 0;
 let itemMessage = '';
 let itemMessageTime = 0;
-let gameStartTime; // ✨ 게임 시작 시간 변수 선언
+let gameStartTime;
 
 // --- 이벤트 리스너 설정 ---
 document.addEventListener('keydown', (e) => {
@@ -106,7 +106,7 @@ document.getElementById('submitScoreBtn').addEventListener('click', async () => 
     const playerNameInput = document.getElementById('playerName');
     const playerName = playerNameInput.value.trim();
     if (playerName) {
-        await saveScore(playerName); // ✨ 인자 변경
+        await saveScore(playerName);
         document.getElementById('name-prompt').style.display = 'none';
         await displayLeaderboard();
     } else {
@@ -326,10 +326,9 @@ function update() {
         gameState.lives--;
         if (gameState.lives <= 0) {
             gameState.gameOver = true;
-            // ✨ 게임 오버 시 플레이 시간 계산
-            const endTime = Date.now();
-            const elapsedSeconds = Math.floor((endTime - gameStartTime) / 1000);
-            gameState.playTime = elapsedSeconds;
+            const endTime = Date.now();
+            const elapsedSeconds = Math.floor((endTime - gameStartTime) / 1000);
+            gameState.playTime = elapsedSeconds;
             showNamePrompt();
         } else {
             resetBalls();
@@ -350,6 +349,7 @@ function update() {
     updateParticles();
     updateUI();
 }
+
 function resetBalls() {
     balls.length = 0;
     balls.push({
@@ -518,10 +518,10 @@ function updateUI() {
 
 // ✨ 초를 'M분 S초' 형식으로 변환하는 함수
 function formatTime(totalSeconds) {
-    if (isNaN(totalSeconds) || totalSeconds < 0) return '0초';
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    return `${minutes}분 ${seconds}초`;
+    if (isNaN(totalSeconds) || totalSeconds < 0) return '0초';
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}분 ${seconds}초`;
 }
 
 async function saveScore(name) {
@@ -530,14 +530,14 @@ async function saveScore(name) {
         return;
     }
     try {
-        // ✨ score, level, playTime을 gameState에서 직접 가져와 저장
+        // ✨ score, level, playTime을 gameState에서 직접 가져와 저장
         await addDoc(scoresCollection, {
-            name: name,
-            score: gameState.score,
-            level: gameState.level,
-            playTime: gameState.playTime,
-            createdAt: new Date()
-        });
+            name: name,
+            score: gameState.score,
+            level: gameState.level,
+            playTime: gameState.playTime,
+            createdAt: new Date()
+        });
         console.log("점수 저장 성공!");
     } catch (error) {
         console.error("점수 저장 실패: ", error);
@@ -559,11 +559,11 @@ async function displayLeaderboard() {
 
         leaderboardList.innerHTML = ''; // 목록 비우기
 
-        // ✨ 랭킹 헤더 추가
-        const header = document.createElement('li');
-        header.classList.add('leaderboard-header');
-        header.innerHTML = `<span>순위</span><span>이름</span><span>레벨</span><span>점수</span><span>플레이 시간</span>`;
-        leaderboardList.appendChild(header);
+        // ✨ 랭킹 헤더 추가
+        const header = document.createElement('li');
+        header.classList.add('leaderboard-header');
+        header.innerHTML = `<span>순위</span><span>이름</span><span>레벨</span><span>점수</span><span>플레이 시간</span>`;
+        leaderboardList.appendChild(header);
 
         if (scores.length === 0) {
             leaderboardList.innerHTML += '<li>아직 등록된 랭킹이 없습니다.</li>';
@@ -572,12 +572,12 @@ async function displayLeaderboard() {
                 const li = document.createElement('li');
                 // ✨ level과 playTime을 표시하도록 innerHTML 수정
                 li.innerHTML = `
-                    <span class="rank">${index + 1}</span>
-                    <span class="name">${escapeHTML(entry.name)}</span>
-                    <span class="level">Lv.${entry.level || 1}</span>
-                    <span class="score">${entry.score}</span>
-                    <span class="playTime">${formatTime(entry.playTime || 0)}</span>
-                `;
+                    <span class="rank">${index + 1}</span>
+                    <span class="name">${escapeHTML(entry.name)}</span>
+                    <span class="level">Lv.${entry.level || 1}</span>
+                    <span class="score">${entry.score}</span>
+                    <span class="playTime">${formatTime(entry.playTime || 0)}</span>
+                `;
                 leaderboardList.appendChild(li);
             });
         }
@@ -601,7 +601,7 @@ function restartGame() {
     Object.assign(gameState, {
         score: 0, lives: 1, level: 1, paused: false, gameOver: false,
         ballSpeed: 4, paddleSpeed: 8, slowMotionTime: 0, paddleExpandTime: 0,
-        playTime: 0 // ✨ 플레이 시간 초기화
+        playTime: 0 // ✨ 플레이 시간 초기화
     });
     Object.assign(paddle, { x: canvas.width / 2 - 75, width: paddle.originalWidth });
     items.length = 0;
@@ -609,7 +609,7 @@ function restartGame() {
     createBricks();
     resetBalls();
     updateUI();
-    gameStartTime = Date.now(); // ✨ 다시 시작할 때 시간 초기화
+    gameStartTime = Date.now(); // ✨ 다시 시작할 때 시간 초기화
     document.getElementById('gameOver').style.display = 'none';
     document.getElementById('name-prompt').style.display = 'none';
 }
@@ -618,10 +618,11 @@ function initGame() {
     createBricks();
     resetBalls();
     updateUI();
-    gameStartTime = Date.now(); // ✨ 최초 게임 시작 시간 기록
+    gameStartTime = Date.now(); // ✨ 최초 게임 시작 시간 기록
     gameLoop();
 }
 
 // --- 게임 시작 ---
 initializeFirebase();
 initGame();
+이 코드에서 볼 속도를 2배 빠르게 수정하고, 패들 속도도 2배 빠르게 수정해줘, 그리고 랭킹 순위는 TOP 10이 아닌 TOP 5만 나오도록 변경해줘
