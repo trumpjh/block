@@ -42,7 +42,7 @@ const ctx = canvas.getContext('2d');
 // --- 게임 상태 변수 ---
 let gameState = {
     score: 0,
-    lives: 3,
+    lives: 1,
     level: 1,
     paused: false,
     gameOver: false,
