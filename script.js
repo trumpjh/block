@@ -28,7 +28,6 @@ try {
     await signInAnonymously(auth);
 
     // 데이터베이스에 'scores'라는 이름의 컬렉션 경로를 설정합니다.
-    // 이 경로에 모든 랭킹 데이터가 저장됩니다.
     scoresCollection = collection(db, "scores");
 
     console.log("Firebase initialized and user signed in successfully.");
@@ -37,6 +36,7 @@ try {
     console.error("Firebase 초기화 실패:", e);
     alert("랭킹 시스템을 불러올 수 없습니다. Firebase 설정을 확인하세요.");
 }
+
 
 // --- 게임 요소 가져오기 ---
 const canvas = document.getElementById('gameCanvas');
