@@ -41,8 +41,8 @@ let gameState = {
     level: 1,
     paused: false,
     gameOver: false,
-    ballSpeed: 4,
-    paddleSpeed: 8,
+    ballSpeed: 8,         // 2배 상향
+    paddleSpeed: 16,      // 2배 상향
     slowMotionTime: 0,
     paddleExpandTime: 0,
     playTime: 0
@@ -54,7 +54,7 @@ const paddle = {
     y: canvas.height - 30,
     width: 150,
     height: 15,
-    speed: 8,
+    speed: 16,            // 2배 상향
     originalWidth: 150
 };
 
@@ -296,7 +296,7 @@ function update() {
             const normalizedDifference = difference / (paddle.width / 2);
             ball.dy = -Math.abs(ball.dy);
             ball.dx += normalizedDifference * 2;
-            const maxSpeed = 8;
+            const maxSpeed = 10; // 스피드 상향에 맞춰 최대 속도도 조절
             if (Math.abs(ball.dx) > maxSpeed) ball.dx = Math.sign(ball.dx) * maxSpeed;
         }
 
@@ -552,7 +552,7 @@ async function displayLeaderboard() {
         return;
     }
     try {
-        const q = query(scoresCollection, orderBy("score", "desc"), limit(10));
+        const q = query(scoresCollection, orderBy("score", "desc"), limit(20));
         const querySnapshot = await getDocs(q);
         const scores = [];
         querySnapshot.forEach((doc) => scores.push(doc.data()));
@@ -625,4 +625,4 @@ function initGame() {
 // --- 게임 시작 ---
 initializeFirebase();
 initGame();
-이 코드에서 볼 속도를 2배 빠르게 수정하고, 패들 속도도 2배 빠르게 수정해줘, 그리고 랭킹 순위는 TOP 10이 아닌 TOP 5만 나오도록 변경해줘
+이렇게 코드를 작성했는데 볼 속도를 2배 빠르게, 패들 속도를 2배 빠르게, 랭킹을 TOP5로 나오게 수정 부탁해
