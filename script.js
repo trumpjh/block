@@ -169,14 +169,15 @@ function createItem(x, y, forceType = null) {
 }
 
 function createLifeItem() {
-    if (gameState.level % 3 === 0 && !lifeItemDropped) {
-        const visibleBricks = bricks.filter(brick => brick.visible);
-        if (visibleBricks.length > 0) {
-            const randomBrick = visibleBricks[Math.floor(Math.random() * visibleBricks.length)];
-            createItem(randomBrick.x + randomBrick.width / 2, randomBrick.y + randomBrick.height / 2, 'extraLife');
-            lifeItemDropped = true;
-        }
-    }
+    // ✨ 화면에 다른 아이템이 없을 때만 생성되도록 `items.length === 0` 조건을 추가합니다.
+    if (items.length === 0 && gameState.level % 3 === 0 && !lifeItemDropped) {
+        const visibleBricks = bricks.filter(brick => brick.visible);
+        if (visibleBricks.length > 0) {
+            const randomBrick = visibleBricks[Math.floor(Math.random() * visibleBricks.length)];
+            createItem(randomBrick.x + randomBrick.width / 2, randomBrick.y + randomBrick.height / 2, 'extraLife');
+            lifeItemDropped = true;
+        }
+    }
 }
 
 function applyItemEffect(item) {
@@ -317,9 +318,10 @@ function update() {
                 gameState.score += brick.points;
                 createParticles(brick.x + brick.width / 2, brick.y + brick.height / 2, brick.color);
                 
-                if (gameState.level > 1 && Math.random() < 0.3 && stageItemsDropped < itemsPerStage) {
+// `gameState.level > 1` 조건을 제거하여 모든 레벨에서 아이템이 나올 수 있게 합니다.
+                if (Math.random() < 0.3 && stageItemsDropped < itemsPerStage) {
                     createItem(brick.x + brick.width / 2, brick.y + brick.height / 2);
-                }
+                } 
                 
                 createLifeItem();
                 
@@ -503,18 +505,17 @@ function drawUI() {
 
 // --- 메인 게임 루프 ---
 function gameLoop() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    update();
-    drawParticles()
-    drawBricks();
-    drawPaddle();
-    drawBalls();
-    drawItems();
-    drawParticles();
-    drawUI();
-    requestAnimationFrame(gameLoop);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    update();
+    // drawParticles() // 👈 이 줄을 삭제하거나 주석 처리합니다.
+    drawBricks();
+    drawPaddle();
+    drawBalls();
+    drawItems();
+    drawParticles(); // 뒤에 있는 호출만 남겨둡니다.
+    drawUI();
+    requestAnimationFrame(gameLoop);
 }
-
 function updateUI() {
     document.getElementById('score').textContent = gameState.score;
     document.getElementById('lives').textContent = gameState.lives;
