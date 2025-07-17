@@ -1,42 +1,42 @@
 // Firebase SDK 가져오기
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
 import { getFirestore, collection, addDoc, getDocs, query, limit, orderBy } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
 // --- Firebase 설정 ---
+// 1. 여기에 사용자의 Firebase 프로젝트 설정 정보를 사용합니다.
 const firebaseConfig = {
   apiKey: "AIzaSyAs9RVHEWzJcWWanpTbCCDsTD4hvlBfdUc",
   authDomain: "black-8060e.firebaseapp.com",
   projectId: "black-8060e",
-  storageBucket: "black-8060e.firebasestorage.app",
+  storageBucket: "black-8060e.appspot.com",
   messagingSenderId: "1010329205136",
   appId: "1:1010329205136:web:e0d1bcb81e7cde04665b15",
   measurementId: "G-FGLRCBMCT8"
 };
 
-
 let db, auth;
-const appId = typeof __app_id !== 'undefined' ? __app_id : 'dx-ball-default';
+let scoresCollection; // scoresCollection을 전역 변수로 선언
 
 try {
-    const firebaseConfig = JSON.parse(typeof __firebase_config !== 'undefined' ? __firebase_config : '{}');
+    // 2. 위에서 정의한 firebaseConfig로 앱을 초기화합니다.
     const app = initializeApp(firebaseConfig);
     db = getFirestore(app);
     auth = getAuth(app);
 
-    // 인증 처리
-    if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-        await signInWithCustomToken(auth, __initial_auth_token);
-    } else {
-        await signInAnonymously(auth);
-    }
-    console.log("Firebase initialized and user signed in.");
+    // 3. 익명으로 로그인합니다.
+    await signInAnonymously(auth);
+
+    // 4. 데이터베이스 컬렉션 경로를 설정합니다.
+    scoresCollection = collection(db, "scores");
+
+    console.log("Firebase initialized and user signed in successfully.");
+
 } catch (e) {
     console.error("Firebase 초기화 실패:", e);
     alert("랭킹 시스템을 불러올 수 없습니다. Firebase 설정을 확인하세요.");
 }
 
-const scoresCollection = collection(db, `/artifacts/${appId}/public/data/scores`);
 
 // --- 게임 요소 가져오기 ---
 const canvas = document.getElementById('gameCanvas');
@@ -171,8 +171,6 @@ function createLifeItem() {
 }
 
 function applyItemEffect(item) {
-    // (이하 applyItemEffect, checkCollision, createParticles 등 모든 게임 로직 함수는 원본과 동일)
-    // ... 모든 게임 로직 함수들 ...
     switch(item.effect) {
         case 'slowMotion': gameState.slowMotionTime = 300; break;
         case 'clearRow': {
@@ -502,6 +500,10 @@ function updateUI() {
 
 // --- 랭킹 및 게임 관리 함수 ---
 async function saveScore(name, score) {
+    if (!scoresCollection) {
+        console.error("Firestore is not initialized.");
+        return;
+    }
     try {
         await addDoc(scoresCollection, { name, score, createdAt: new Date() });
         console.log("점수 저장 성공!");
@@ -513,6 +515,10 @@ async function saveScore(name, score) {
 async function displayLeaderboard() {
     const leaderboardList = document.getElementById('leaderboard-list');
     leaderboardList.innerHTML = '<li>랭킹을 불러오는 중...</li>';
+    if (!scoresCollection) {
+        leaderboardList.innerHTML = '<li>랭킹 시스템에 연결할 수 없습니다.</li>';
+        return;
+    }
     try {
         const q = query(scoresCollection, orderBy("score", "desc"), limit(20));
         const querySnapshot = await getDocs(q);
