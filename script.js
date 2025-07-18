@@ -620,7 +620,7 @@ function escapeHTML(str) {
 function restartGame() {
     Object.assign(gameState, {
         score: 0, lives: 1, level: 1, paused: false, gameOver: false,
-        ballSpeed: 4, paddleSpeed: 8, slowMotionTime: 0, paddleExpandTime: 0,
+        ballSpeed: 6, paddleSpeed: 8, slowMotionTime: 0, paddleExpandTime: 0, // ✨ 4 -> 6으로 수정
         playTime: 0 // ✨ 플레이 시간 초기화
     });
     Object.assign(paddle, { x: canvas.width / 2 - 75, width: paddle.originalWidth });
@@ -644,3 +644,4 @@ function initGame() {
 
 // --- 게임 시작 ---
 initializeFirebase();
+gameLoop();
