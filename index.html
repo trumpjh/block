@@ -1,57 +1,114 @@
 <!DOCTYPE html>
+
 <html lang="ko">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DX Ball - 벽돌깨기 (온라인 랭킹)</title>
-    <!-- 외부 CSS 파일 연결 -->
-    <link rel="stylesheet" href="style.css">
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>DX Ball - 벽돌깨기 (온라인 랭킹)</title>
+
+    <!-- 외부 CSS 파일 연결 -->
+
+    <link rel="stylesheet" href="style.css">
+
 </head>
+
 <body>
-    <div class="game-container">
-        <h1 class="title">DX BALL</h1>
-        <div class="game-info">
-            <div>점수: <span id="score">0</span></div>
-            <div>생명: <span id="lives">1</span></div>
-            <div>레벨: <span id="level">1</span></div>
-        </div>
-        <div style="position: relative;">
-            <canvas id="gameCanvas" width="800" height="600"></canvas>
-            <div class="item-info">
-                <strong>아이템 효과:</strong><br>
-                🔵 속도 감소<br>
-                🟡 한 줄 제거<br>
-                🟢 같은 색 제거<br>
-                🔴 볼 복제<br>
-                🟣 패들 확장<br>
-                💚 생명 증가
-            </div>
-        </div>
-        <div class="controls">
-            ← → 방향키 또는 마우스로 패들 조작 | 스페이스바: 일시정지
-        </div>
 
-        <!-- 이름 입력 모달 -->
-        <div class="modal" id="name-prompt">
-            <h2>랭킹 등록</h2>
-            <p>이름을 입력하고 점수를 등록하세요!</p>
-            <input type="text" id="playerName" placeholder="이름 입력 (최대 10자)" maxlength="10">
-            <button class="restart-btn" id="submitScoreBtn">점수 등록</button>
-        </div>
+    <div class="game-container">
 
-        <!-- 게임 오버 및 랭킹 모달 -->
-        <div class="modal" id="gameOver">
-            <h2 id="gameOverText">게임 오버!</h2>
-            <p>최종 점수: <span id="finalScore">0</span></p>
-            <h3>🏆 TOP 20 랭킹 🏆</h3>
-            <ol id="leaderboard-list">
-                <li>랭킹을 불러오는 중...</li>
-            </ol>
-            <button class="restart-btn" id="restartBtn">다시 시작</button>
-        </div>
-    </div>
+        <h1 class="title">DX BALL</h1>
 
-    <!-- 외부 JavaScript 파일 연결 (defer 필수) -->
-    <script type="module" src="script.js" defer></script>
+        <div class="game-info">
+
+            <div>점수: <span id="score">0</span></div>
+
+            <div>생명: <span id="lives">3</span></div>
+
+            <div>레벨: <span id="level">1</span></div>
+
+        </div>
+
+        <div style="position: relative;">
+
+            <canvas id="gameCanvas" width="800" height="600"></canvas>
+
+            <div class="item-info">
+
+                <strong>아이템 효과:</strong><br>
+
+                🔵 속도 감소<br>
+
+                🟡 한 줄 제거<br>
+
+                🟢 같은 색 제거<br>
+
+                🔴 볼 복제<br> <!-- 깨진 문자 수정 -->
+
+                🟣 패들 확장<br>
+
+                💚 생명 증가
+
+            </div>
+
+        </div>
+
+        <div class="controls">
+
+            ← → 방향키 또는 마우스로 패들 조작 | 스페이스바: 일시정지
+
+        </div>
+
+
+
+        <!-- 이름 입력 모달 -->
+
+        <div class="modal" id="name-prompt">
+
+            <h2>랭킹 등록</h2>
+
+            <p>이름을 입력하고 점수를 등록하세요!</p>
+
+            <input type="text" id="playerName" placeholder="이름 입력 (최대 10자)" maxlength="10">
+
+            <button class="restart-btn" id="submitScoreBtn">점수 등록</button>
+
+        </div>
+
+
+
+        <!-- 게임 오버 및 랭킹 모달 -->
+
+        <div class="modal" id="gameOver">
+
+            <h2 id="gameOverText">게임 오버!</h2>
+
+            <p>최종 점수: <span id="finalScore">0</span></p>
+
+            <h3>🏆 TOP 20 랭킹 🏆</h3>
+
+            <ol id="leaderboard-list">
+
+                <li>랭킹을 불러오는 중...</li>
+
+            </ol>
+
+            <button class="restart-btn" id="restartBtn">다시 시작</button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- 외부 JavaScript 파일 연결 (type="module" 필수) -->
+
+    <script type="module" src="script.js" defer></script>
+
 </body>
+
 </html>
+
