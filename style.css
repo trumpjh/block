@@ -1,57 +1,159 @@
-/* 기존 #leaderboard-list 와 #leaderboard-list li 관련 스타일을 모두 삭제하고 아래 코드로 대체하세요. */
-
-#leaderboard-list {
-    list-style-type: none;
+body {
+    margin: 0;
     padding: 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    font-family: 'Arial', sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    color: white;
+}
+
+.game-container {
+    text-align: center;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    position: relative;
+}
+
+canvas {
+    border: 3px solid #fff;
+    border-radius: 10px;
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    cursor: none; /* 마우스 커서 숨기기 */
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.controls {
     margin-top: 15px;
-    max-height: 280px; /* 높이 약간 조정 */
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    display: none; /* 기본적으로 숨김 */
+    width: 80%;
+    max-width: 500px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.7);
+    z-index: 100;
+}
+
+.modal h2 {
+    background: linear-gradient(45deg, #ff6b6b, #feca57);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.restart-btn {
+    background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    border-radius: 25px;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: all 0.3s ease;
+}
+
+.restart-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+}
+
+.title {
+    font-size: 32px;
+    margin-bottom: 20px;
+    background: linear-gradient(45deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+}
+
+.item-info {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 12px;
+    max-width: 200px;
+}
+
+#name-prompt input {
+    padding: 10px;
+    border-radius: 20px;
+    border: 2px solid #764ba2;
+    background: rgba(255,255,255,0.1);
+    color: white;
+    text-align: center;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+#name-prompt button {
+    background: linear-gradient(45deg, #54a0ff, #5f27cd);
+}
+
+/* --- 랭킹 목록 스타일 --- */
+#leaderboard-list {
+    list-style-type: none; /* 자동 번호 제거 */
+    padding: 0;
+    margin-top: 20px;
+    max-height: 300px;
     overflow-y: auto;
-    text-align: left;
-    display: grid; /* Grid 레이아웃 사용 */
-    grid-template-columns: 40px 1fr 60px 80px 80px; /* 순위, 이름, 레벨, 점수, 시간 컬럼 너비 지정 */
-    gap: 8px; /* 행과 열 사이의 간격 */
-    align-items: center; /* 세로 중앙 정렬 */
 }
 
 #leaderboard-list li {
-    display: contents; /* li 태그는 grid 컨테이너의 일부처럼 동작하게 만듦 */
+    background: rgba(255,255,255,0.1);
+    margin-bottom: 5px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
 }
 
-#leaderboard-list span {
-    padding: 8px 5px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
-    text-align: center; /* 기본적으로 텍스트 중앙 정렬 */
-    white-space: nowrap; /* 이름 등이 길어도 줄바꿈 방지 */
-    overflow: hidden;
-    text-overflow: ellipsis; /* 내용이 넘치면 ... 으로 표시 */
+/* 각 항목의 너비를 지정하여 공간 확보 */
+#leaderboard-list li span {
+    text-align: center;
 }
+#leaderboard-list li .rank { width: 10%; }
+#leaderboard-list li .name { width: 25%; text-align: left; padding-left: 10px; }
+#leaderboard-list li .level { width: 15%; }
+#leaderboard-list li .score { width: 20%; }
+#leaderboard-list li .playTime { width: 30%; text-align: right; }
 
-#leaderboard-list .leaderboard-header span {
-    background: rgba(0, 0, 0, 0.2);
+/* 랭킹 헤더 스타일 */
+.leaderboard-header {
+    background: rgba(0,0,0,0.3) !important;
     font-weight: bold;
     color: #feca57;
 }
 
-#leaderboard-list .name {
-    text-align: left; /* 이름만 왼쪽 정렬 */
-    padding-left: 10px;
-}
-
-#leaderboard-list .rank {
-    font-weight: bold;
-    color: #feca57;
-}
-
-#leaderboard-list .level {
-    color: #54a0ff;
-}
-
-#leaderboard-list .score {
-    font-weight: bold;
-    color: #48dbfb;
-}
-
-#leaderboard-list .playTime {
-    font-size: 12px;
+/* 헤더의 이름(name) 항목도 중앙 정렬되도록 수정 */
+.leaderboard-header .name {
+    text-align: center !important;
+    padding-left: 0 !important;
 }
