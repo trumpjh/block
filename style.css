@@ -117,31 +117,61 @@ canvas {
     background: linear-gradient(45deg, #54a0ff, #5f27cd);
 }
 
+/* --- 랭킹 보드 스타일 추가 --- */
+
 #leaderboard-list {
-    list-style-type: none;
-    padding: 0;
-    margin-top: 20px;
-    max-height: 300px;
-    overflow-y: auto;
-    text-align: left;
+    padding: 0;                /* ol 태그의 기본 여백 제거 */
+    list-style: none;          /* 순번(1, 2, 3...) 제거 */
+    text-align: left;          /* 전체 텍스트를 왼쪽 정렬로 초기화 */
 }
+
+/* 랭킹 한 줄(header 포함)에 대한 스타일 */
 #leaderboard-list li {
-    background: rgba(255,255,255,0.1);
-    margin-bottom: 5px;
-    padding: 8px 15px;
-    border-radius: 10px;
-    display: flex;
-    justify-content: space-between;
+    display: flex;             /* Flexbox 레이아웃 적용 */
+    justify-content: space-between; /* 자식 요소(span)들 사이에 공간을 균등하게 배분 */
+    align-items: center;       /* 세로 중앙 정렬 */
+    padding: 10px 5px;         /* 상하, 좌우 여백 */
+    border-bottom: 1px solid #555; /* 항목 구분선 */
+    font-size: 16px;           /* 폰트 크기 조정 */
 }
-#leaderboard-list li .rank {
+
+/* 마지막 항목의 구분선은 제거 */
+#leaderboard-list li:last-child {
+    border-bottom: none;
+}
+
+/* 랭킹 헤더 스타일 */
+.leaderboard-header {
     font-weight: bold;
-    color: #feca57;
-    margin-right: 15px;
+    color: #feca57; /* 헤더 텍스트 색상 강조 */
 }
-#leaderboard-list li .name {
-    flex-grow: 1;
+
+/* --- 각 컬럼(span)의 너비와 정렬 설정 --- */
+
+#leaderboard-list .rank {
+    flex-basis: 10%;         /* 너비 10% 차지 */
+    text-align: center;      /* 가운데 정렬 */
 }
-#leaderboard-list li .score {
-    font-weight: bold;
-    color: #48dbfb;
+
+#leaderboard-list .name {
+    flex-basis: 35%;         /* 너비 35% 차지 */
+    text-align: left;        /* 왼쪽 정렬 */
+    overflow: hidden;        /* 이름이 길 경우 숨김 처리 */
+    text-overflow: ellipsis; /* ...으로 표시 */
+    white-space: nowrap;     /* 줄바꿈 방지 */
+}
+
+#leaderboard-list .level {
+    flex-basis: 15%;
+    text-align: center;
+}
+
+#leaderboard-list .score {
+    flex-basis: 20%;
+    text-align: right;       /* 오른쪽 정렬 */
+}
+
+#leaderboard-list .playTime {
+    flex-basis: 20%;
+    text-align: right;       /* 오른쪽 정렬 */
 }
