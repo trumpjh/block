@@ -560,11 +560,20 @@ async function displayLeaderboard() {
 
         leaderboardList.innerHTML = ''; // 목록 비우기
 
-        // ✨ 랭킹 헤더 추가
-        const header = document.createElement('li');
-        header.classList.add('leaderboard-header');
-        header.innerHTML = `<span>순위</span><span>이름</span><span>레벨</span><span>점수</span><span>플레이 시간</span>`;
-        leaderboardList.appendChild(header);
+// ...
+        // ✨ 랭킹 헤더 추가 (수정)
+        const header = document.createElement('li');
+        header.classList.add('leaderboard-header');
+        // 각 span에 클래스를 추가하여 데이터와 정렬을 맞춥니다.
+        header.innerHTML = `
+            <span class="rank">순위</span>
+            <span class="name">이름</span>
+            <span class="level">레벨</span>
+            <span class="score">점수</span>
+            <span class="playTime">플레이 시간</span>
+        `;
+        leaderboardList.appendChild(header);
+// ...
 
         if (scores.length === 0) {
             leaderboardList.innerHTML += '<li>아직 등록된 랭킹이 없습니다.</li>';
