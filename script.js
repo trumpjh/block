@@ -41,6 +41,7 @@ let gameState = {
     level: 1,
     paused: false,
     gameOver: false,
+    gameStarted: false, // ✨ 게임 시작 상태 추가
     ballSpeed: 6,
     paddleSpeed: 8,
     slowMotionTime: 0,
@@ -90,6 +91,15 @@ let itemMessageTime = 0;
 let gameStartTime; // ✨ 게임 시작 시간 변수 선언
 
 // --- 이벤트 리스너 설정 ---
+
+// (새로 추가) 게임 시작 버튼
+document.getElementById('startGameBtn').addEventListener('click', () => {
+    document.getElementById('start-menu').style.display = 'none';
+    gameState.gameStarted = true;
+    initGame(); // 게임 초기화 및 시작
+});
+
+
 document.addEventListener('keydown', (e) => {
     keys[e.key] = true;
     if (e.key === ' ') {
@@ -255,7 +265,7 @@ function updateParticles() {
 }
 
 function update() {
-    if (gameState.paused || gameState.gameOver) return;
+    if (!gameState.gameStarted || gameState.paused || gameState.gameOver) return;
 
     if (gameState.slowMotionTime > 0) gameState.slowMotionTime--;
     if (gameState.paddleExpandTime > 0) {
@@ -634,4 +644,3 @@ function initGame() {
 
 // --- 게임 시작 ---
 initializeFirebase();
-initGame();
