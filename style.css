@@ -117,43 +117,31 @@ canvas {
     background: linear-gradient(45deg, #54a0ff, #5f27cd);
 }
 
-/* --- 랭킹 목록 스타일 --- */
 #leaderboard-list {
-    list-style-type: none; /* 자동 번호 제거 */
+    list-style-type: none;
     padding: 0;
     margin-top: 20px;
     max-height: 300px;
     overflow-y: auto;
+    text-align: left;
 }
-
 #leaderboard-list li {
     background: rgba(255,255,255,0.1);
     margin-bottom: 5px;
-    padding: 10px 15px;
+    padding: 8px 15px;
     border-radius: 10px;
     display: flex;
-    align-items: center;
+    justify-content: space-between;
 }
-
-/* 각 항목의 너비를 지정하여 공간 확보 */
-#leaderboard-list li span {
-    text-align: center;
-}
-#leaderboard-list li .rank { width: 10%; }
-#leaderboard-list li .name { width: 25%; text-align: left; padding-left: 10px; }
-#leaderboard-list li .level { width: 15%; }
-#leaderboard-list li .score { width: 20%; }
-#leaderboard-list li .playTime { width: 30%; text-align: right; }
-
-/* 랭킹 헤더 스타일 */
-.leaderboard-header {
-    background: rgba(0,0,0,0.3) !important;
+#leaderboard-list li .rank {
     font-weight: bold;
     color: #feca57;
+    margin-right: 15px;
 }
-
-/* 헤더의 이름(name) 항목도 중앙 정렬되도록 수정 */
-.leaderboard-header .name {
-    text-align: center !important;
-    padding-left: 0 !important;
+#leaderboard-list li .name {
+    flex-grow: 1;
+}
+#leaderboard-list li .score {
+    font-weight: bold;
+    color: #48dbfb;
 }
