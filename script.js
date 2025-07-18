@@ -42,7 +42,8 @@ let gameState = {
     paused: false,
     gameOver: false,
     gameStarted: false, // ✨ 게임 시작 상태 추가
-    ballSpeed: 4,
+    multiBallSlowdownActive: false, // ✨ 볼 복제 감속 효과 상태
+    ballSpeed: 4,
     paddleSpeed: 8,
     slowMotionTime: 0,
     paddleExpandTime: 0,
@@ -300,15 +301,30 @@ function update() {
             continue;
         }
 
-        if (checkCollision(ball, paddle)) {
-            const paddleCenter = paddle.x + paddle.width / 2;
-            const difference = ball.x - paddleCenter;
-            const normalizedDifference = difference / (paddle.width / 2);
-            ball.dy = -Math.abs(ball.dy);
-            ball.dx += normalizedDifference * 2;
-            const maxSpeed = 8;
-            if (Math.abs(ball.dx) > maxSpeed) ball.dx = Math.sign(ball.dx) * maxSpeed;
-        }
+if (checkCollision(ball, paddle)) {
+    // ✨ 볼 복제 감속 효과가 활성화 상태이면 원래 속도로 복구
+    if (gameState.multiBallSlowdownActive) {
+        gameState.multiBallSlowdownActive = false;
+
+        balls.forEach(b => {
+            const currentSpeed = Math.sqrt(b.dx * b.dx + b.dy * b.dy);
+            if (currentSpeed > 0) {
+                 const speedRatio = gameState.ballSpeed / currentSpeed;
+                 b.dx *= speedRatio;
+                 b.dy *= speedRatio;
+            }
+        });
+    }
+
+    // 기존 패들 충돌 로직
+    const paddleCenter = paddle.x + paddle.width / 2;
+    const difference = ball.x - paddleCenter;
+    const normalizedDifference = difference / (paddle.width / 2);
+    ball.dy = -Math.abs(ball.dy);
+    ball.dx += normalizedDifference * 2;
+    const maxSpeed = 8;
+    if (Math.abs(ball.dx) > maxSpeed) ball.dx = Math.sign(ball.dx) * maxSpeed;
+}
 
         for (let j = 0; j < bricks.length; j++) {
             const brick = bricks[j];
