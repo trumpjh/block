@@ -42,7 +42,7 @@ let gameState = {
     paused: false,
     gameOver: false,
     gameStarted: false, // ✨ 게임 시작 상태 추가
-    ballSpeed: 6,
+    ballSpeed: 4,
     paddleSpeed: 8,
     slowMotionTime: 0,
     paddleExpandTime: 0,
@@ -306,7 +306,7 @@ function update() {
             const normalizedDifference = difference / (paddle.width / 2);
             ball.dy = -Math.abs(ball.dy);
             ball.dx += normalizedDifference * 2;
-            const maxSpeed = 12;
+            const maxSpeed = 8;
             if (Math.abs(ball.dx) > maxSpeed) ball.dx = Math.sign(ball.dx) * maxSpeed;
         }
 
@@ -373,7 +373,7 @@ function resetBalls() {
 
 function nextLevel() {
     gameState.level++;
-    gameState.ballSpeed += 0.75;
+    gameState.ballSpeed += 0.5;
     gameState.paddleSpeed += 0.5;
     
     balls.forEach(ball => {
@@ -620,7 +620,7 @@ function escapeHTML(str) {
 function restartGame() {
     Object.assign(gameState, {
         score: 0, lives: 1, level: 1, paused: false, gameOver: false,
-        ballSpeed: 6, paddleSpeed: 8, slowMotionTime: 0, paddleExpandTime: 0, // ✨ 4 -> 6으로 수정
+        ballSpeed: 4, paddleSpeed: 8, slowMotionTime: 0, paddleExpandTime: 0, // ✨ 4 -> 6으로 수정
         playTime: 0 // ✨ 플레이 시간 초기화
     });
     Object.assign(paddle, { x: canvas.width / 2 - 75, width: paddle.originalWidth });
