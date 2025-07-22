@@ -276,13 +276,21 @@ function update() {
     if (itemMessageTime > 0) itemMessageTime--;
 
     const timeMultiplier = gameState.slowMotionTime > 0 ? 0.5 : 1;
+    const leftPressed = keys['ArrowLeft'];
+    const rightPressed = keys['ArrowRight'];
 
-    if (keys['ArrowLeft'] && paddle.x > 0) paddle.x -= paddle.speed;
-    if (keys['ArrowRight'] && paddle.x < canvas.width - paddle.width) paddle.x += paddle.speed;
+    if (leftPressed && paddle.x > 0) {
+        paddle.x -= paddle.speed;
+    } else if (rightPressed && paddle.x < canvas.width - paddle.width) {
+        paddle.x += paddle.speed;
+    } else if (mouseX > 0) { // 키보드 입력이 없을 때만 마우스 위치 반영
+        paddle.x = mouseX - paddle.width / 2;
+    }
 
+    
     if (mouseX > 0) {
         paddle.x = mouseX - paddle.width / 2;
-        paddle.x = Math.max(0, Math.min(canvas.width - paddle.width, paddle.x));
+        paddle.x = Math.max(0, Math.min(canvas.width - paddle.width, paddle.x))
     }
 
     for (let i = balls.length - 1; i >= 0; i--) {
