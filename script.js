@@ -37,12 +37,13 @@ const ctx = canvas.getContext('2d');
 // --- 게임 상태 변수 ---
 let gameState = {
     score: 0,
-    lives: 3,
+    lives: 2, // ✨ 생명 2로 수정
     level: 1,
     paused: false,
     gameOver: false,
     gameStarted: false,
     multiBallSlowdownActive: false,
+    mouseControlEnabled: true, // ✨ 마우스 조작 활성화 상태
     ballSpeed: 4,
     paddleSpeed: 8,
     slowMotionTime: 0,
@@ -100,11 +101,18 @@ document.getElementById('startGameBtn').addEventListener('click', () => {
 
 document.addEventListener('keydown', (e) => {
     keys[e.key] = true;
+    // 일시정지
     if (e.key === ' ') {
         e.preventDefault();
         if (gameState.gameStarted && !gameState.gameOver) {
             gameState.paused = !gameState.paused;
         }
+    }
+    // ✨ '1' 키로 마우스 조작 켜고 끄기
+    if (e.key === '1') {
+        gameState.mouseControlEnabled = !gameState.mouseControlEnabled;
+        const message = gameState.mouseControlEnabled ? "마우스 조작 활성화" : "마우스 조작 비활성화";
+        showItemMessage(message);
     }
 });
 
@@ -227,7 +235,7 @@ function applyItemEffect(item) {
                 });
 
                 gameState.multiBallSlowdownActive = true;
-                const targetSpeed = 0.5;
+                const targetSpeed = 1; // ✨ 볼 복제 아이템 감속 속도를 1로 수정
                 balls.forEach(ball => {
                     const currentSpeed = Math.sqrt(ball.dx * ball.dx + ball.dy * ball.dy);
                     if (currentSpeed > 0) {
@@ -237,7 +245,7 @@ function applyItemEffect(item) {
                     }
                 });
 
-                showItemMessage('볼 복제! (슬로우)');
+                showItemMessage('볼 복제!');
             }
             break;
         case 'expandPaddle':
@@ -301,7 +309,7 @@ function update() {
         paddle.x -= paddle.speed;
     } else if (rightPressed) {
         paddle.x += paddle.speed;
-    } else if (mouseX > 0) {
+    } else if (gameState.mouseControlEnabled && mouseX > 0) { // ✨ 마우스 조작 활성화 시에만 적용
         paddle.x = mouseX - paddle.width / 2;
     }
 
@@ -647,11 +655,12 @@ function escapeHTML(str) {
 function restartGame() {
     Object.assign(gameState, {
         score: 0,
-        lives: 3,
+        lives: 2, // ✨ 생명 2로 수정
         level: 1,
         paused: false,
         gameOver: false,
         gameStarted: true,
+        mouseControlEnabled: true, // ✨ 마우스 조작 초기화
         ballSpeed: 4,
         paddleSpeed: 8,
         slowMotionTime: 0,
