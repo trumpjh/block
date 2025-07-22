@@ -37,13 +37,13 @@ const ctx = canvas.getContext('2d');
 // --- 게임 상태 변수 ---
 let gameState = {
     score: 0,
-    lives: 2, // ✨ 생명 2로 수정
+    lives: 2,
     level: 1,
     paused: false,
     gameOver: false,
     gameStarted: false,
     multiBallSlowdownActive: false,
-    mouseControlEnabled: true, // ✨ 마우스 조작 활성화 상태
+    mouseControlEnabled: true,
     ballSpeed: 4,
     paddleSpeed: 8,
     slowMotionTime: 0,
@@ -101,14 +101,19 @@ document.getElementById('startGameBtn').addEventListener('click', () => {
 
 document.addEventListener('keydown', (e) => {
     keys[e.key] = true;
+
+    // ✨ 스크롤 및 스페이스바 기본 동작 방지
+    if (['ArrowUp', 'ArrowDown', ' '].includes(e.key)) {
+        e.preventDefault();
+    }
+
     // 일시정지
     if (e.key === ' ') {
-        e.preventDefault();
         if (gameState.gameStarted && !gameState.gameOver) {
             gameState.paused = !gameState.paused;
         }
     }
-    // ✨ '1' 키로 마우스 조작 켜고 끄기
+    // '1' 키로 마우스 조작 켜고 끄기
     if (e.key === '1') {
         gameState.mouseControlEnabled = !gameState.mouseControlEnabled;
         const message = gameState.mouseControlEnabled ? "마우스 조작 활성화" : "마우스 조작 비활성화";
@@ -235,7 +240,7 @@ function applyItemEffect(item) {
                 });
 
                 gameState.multiBallSlowdownActive = true;
-                const targetSpeed = 1; // ✨ 볼 복제 아이템 감속 속도를 1로 수정
+                const targetSpeed = 1;
                 balls.forEach(ball => {
                     const currentSpeed = Math.sqrt(ball.dx * ball.dx + ball.dy * ball.dy);
                     if (currentSpeed > 0) {
@@ -309,7 +314,7 @@ function update() {
         paddle.x -= paddle.speed;
     } else if (rightPressed) {
         paddle.x += paddle.speed;
-    } else if (gameState.mouseControlEnabled && mouseX > 0) { // ✨ 마우스 조작 활성화 시에만 적용
+    } else if (gameState.mouseControlEnabled && mouseX > 0) {
         paddle.x = mouseX - paddle.width / 2;
     }
 
@@ -655,12 +660,12 @@ function escapeHTML(str) {
 function restartGame() {
     Object.assign(gameState, {
         score: 0,
-        lives: 2, // ✨ 생명 2로 수정
+        lives: 2,
         level: 1,
         paused: false,
         gameOver: false,
         gameStarted: true,
-        mouseControlEnabled: true, // ✨ 마우스 조작 초기화
+        mouseControlEnabled: true,
         ballSpeed: 4,
         paddleSpeed: 8,
         slowMotionTime: 0,
